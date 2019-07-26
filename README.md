@@ -1,16 +1,28 @@
 # Contacts
 Contacts list with full CRUD functionality.
 
-BD: MySQL
-Backend: Laravel
-Frontend: React
+**BD**: MySQL
+
+
+**Backend**: Laravel
+
+
+**Frontend**: React
+
+
 
 # Usage
-Go to the folder and write:
+Go to project directory.
+Yoy need to change name of the DB and user login/password in .env file.
+Then type this to create DB tables:
 ```
 php artisan migrate
 ```
-And then start server on port 80:
+You may also need top install node modules:
+```
+npm insntall
+```
+And then start the server on port 80:
 ```
 php artisan serve --port=80
 ```
