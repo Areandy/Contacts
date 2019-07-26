@@ -3,35 +3,6 @@ import axios from 'axios';
 
 export const MyContext = createContext();
 
-// export const MyProvider = MyContext.Provider;
-// export const MyConsumer = MyContext.Consumer;
-// export default MyContext;
-
-// export const MyProvider = props => {
-// 	const [contacts, setContacts] = useState([
-// 		{
-// 			name: 'max'
-// 		},
-// 		{
-// 			name: 'john'
-// 		}
-// 	]);
-// 	// setContacts([{name: 'sas'}]);
-
-// 	let s = 12;
-// 	// axios.get('/api/contacts').then(res => {
-// 	// 	setContacts(res.data);
-// 	// });
-
-// 	console.log(contacts);
-// 	return (
-// 		<MyContext.Provider value={[contacts]}>
-// 			{props.children}
-// 		</MyContext.Provider>
-// 	);
-// };
-
-
 class MyProvider extends Component
 {
 

@@ -10,7 +10,6 @@ class ContactsController extends Controller
 {
     public function index()
     {
-        // $arr = ['name' => 'Max', 'age' => 12];
         $arr = Contact::all();
 
         return json_encode($arr);
@@ -19,12 +18,14 @@ class ContactsController extends Controller
     public function add(Request $req)
     {
         $data = $req->all();
-
         $new_contact = new Contact();
+
         $new_contact->name = $data['name'];
         $new_contact->phone = $data['phone'];
         $new_contact->info = ($data['info'] === null) ? '' : $data['info'];
+        $new_contact->img_url = ($data['img_url'] === null) ? '' : $data['img_url'];;
         $new_contact->save();
+
         return 'OK';
     }
 
@@ -36,18 +37,29 @@ class ContactsController extends Controller
         return 'OK';
     }
 
+
+    public function update(Request $req)
+    {
+        $data = $req->all();
+        $contact = Contact::find($data['id']);
+        
+        $contact->name = $data['name'];
+        $contact->phone = $data['phone'];
+        $contact->info = ($data['info'] === null) ? '' : $data['info'];
+        $contact->img_url = ($data['img_url'] === null) ? '' : $data['img_url'];;
+        $contact->save();
+    
+        return 'OK';
+    }
+
     public function test()
     {
-        // $data = {
-        //     name: 
-        // };
-
-        $new_contact = new Contact();
-        $new_contact->name = 'QQQ';
-        $new_contact->phone = 'QWEQWE';
-        $new_contact->info = 'ASDASD';
-        $new_contact->save();
-
-         var_dump($new_contact);
+        $c =  new Contact();
+        $c->name = "max";
+        $c->phone = "max";
+        $c->info = "max";
+        $c->img_url = "asd";
+        $c->save();
+        return 'OK';
     }
 }

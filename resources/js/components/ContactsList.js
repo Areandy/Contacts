@@ -46,14 +46,18 @@ class ContactsList extends Component
 		var contatcs_load_flag = false;
 		return (
 			<div>
-				<div className="row">
-					<h2>Contacts List:</h2>
-					<div className="d-flex float-right">
-						{
-							(this.context.add_form_flag == false)
-								? <div onClick={this.context.toggle_add_form} className="alert alert-success">Add new</div>
-								: <div></div>
-						}
+				<div className="row mt-4">
+					<div className="col-5">
+						<h2>Contacts List:</h2>
+					</div>
+					<div className="col-7">
+						<div className="d-flex float-right">
+							{
+								(this.context.add_form_flag == false)
+									? <div onClick={this.context.toggle_add_form} className="alert alert-success">Add new</div>
+									: <div></div>
+							}
+						</div>
 					</div>
 				</div>
 				{
@@ -61,19 +65,11 @@ class ContactsList extends Component
 						? <AddForm />
 						: <div></div>
 				}
-				{/* {contatcs_load_flag = (typeof this.context.contacts !== 'undefined') ? true : false} */}
 				{(typeof this.context.contacts !== 'undefined') ? this.context.contacts.map( contact => (
 					<Contact contact={contact} key={contact.id} />
 				)) : 'Loading...'}
 			</div>
 		);
-					// <div>
-			// 	{console.log(this.context)}
-			// 	{this.state.name}
-			// 	{/* {contacts.map( (contact, index) => (
-			// 		<Contact id={index} contact={contact} key={index}/>
-			// 	))} */}
-			// </div>
 	}
 }
 

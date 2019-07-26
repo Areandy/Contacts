@@ -15,11 +15,12 @@ class AddForm extends Component
 
 	add_new_contact()
 	{
-		var reg_expr = /^\+\d{3}\s\d{3}\s\d{2}\s\d{2}$/;
+		var reg_expr = /^\+\d{3}\s\d{3}\s\d{3}\s\d{2}\s\d{2}$/;
 		var data = {
 			name: $('#name').val(),
 			phone: $('#phone').val(),
-			info: $('#info').val()
+			info: $('#info').val(),
+			img_url: $('#img_url').val()
 		};
 
 		if (!data.name || !data.phone) {
@@ -58,7 +59,7 @@ class AddForm extends Component
 					<hr/>
 					<div className="form-group">
 						<label htmlFor="phone">Phone</label>
-						<input type="text" className="form-control" name="phone" id="phone" placeholder="+xxx xxx xx xx" />
+						<input type="text" className="form-control" name="phone" id="phone" placeholder="+xxx xxx xxx xx xx" />
 					</div>
 					<hr/>
 					<div className="form-group">
@@ -67,11 +68,17 @@ class AddForm extends Component
 					</div>
 					<hr/>
 					<div className="form-group">
+						<label htmlFor="info">Image URL</label>
+						<input type="text" className="form-control" name="img_url" id="img_url" />
+					</div>
+					<hr/>
+					<div className="form-group">
 						<button onClick={this.add_new_contact} type="button" className="btn btn-success">OK</button>
 						<div className="d-flex float-right">
 							<button onClick={this.context.toggle_add_form} type="button" className="btn btn-secondary">Cancle</button>
 						</div>
 					</div>
+
 				</form>
 			</div>
 		);

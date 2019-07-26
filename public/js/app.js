@@ -61724,11 +61724,12 @@ function (_Component) {
     value: function add_new_contact() {
       var _this2 = this;
 
-      var reg_expr = /^\+\d{3}\s\d{3}\s\d{2}\s\d{2}$/;
+      var reg_expr = /^\+\d{3}\s\d{3}\s\d{3}\s\d{2}\s\d{2}$/;
       var data = {
         name: $('#name').val(),
         phone: $('#phone').val(),
-        info: $('#info').val()
+        info: $('#info').val(),
+        img_url: $('#img_url').val()
       };
 
       if (!data.name || !data.phone) {
@@ -61780,7 +61781,7 @@ function (_Component) {
         className: "form-control",
         name: "phone",
         id: "phone",
-        placeholder: "+xxx xxx xx xx"
+        placeholder: "+xxx xxx xxx xx xx"
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
@@ -61790,6 +61791,15 @@ function (_Component) {
         name: "info",
         id: "info",
         rows: "3"
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-group"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "info"
+      }, "Image URL"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "text",
+        className: "form-control",
+        name: "img_url",
+        id: "img_url"
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
@@ -61854,20 +61864,7 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 
 
- // const arr = [
-//     {
-//         name: 'Max',
-//         age: 12
-//     },
-//     {
-//         name: 'John',
-//         age: 41
-//     },
-//     {
-//         name: 'Ferik',
-//         age: 22
-//     }
-// ]
+
 
 var App =
 /*#__PURE__*/
@@ -61920,8 +61917,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _MyContext__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./MyContext */ "./resources/js/components/MyContext.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _EditForm__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./EditForm */ "./resources/js/components/EditForm.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_3__);
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -61944,6 +61942,7 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 
 
+
 var Contact =
 /*#__PURE__*/
 function (_Component) {
@@ -61955,7 +61954,15 @@ function (_Component) {
     _classCallCheck(this, Contact);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(Contact).call(this, props));
-    _this.state = {};
+    _this.state = {
+      edit_form_flag: false,
+      toggle_edit_form: function toggle_edit_form() {
+        _this.setState({
+          edit_form_flag: !_this.state.edit_form_flag
+        });
+      },
+      context: {}
+    };
     _this.delete_cnotact = _this.delete_cnotact.bind(_assertThisInitialized(_this));
     return _this;
   }
@@ -61963,17 +61970,19 @@ function (_Component) {
   _createClass(Contact, [{
     key: "componentDidMount",
     value: function componentDidMount() {
-      this.setState(this.context);
+      this.setState({
+        context: this.context
+      });
     }
   }, {
     key: "delete_cnotact",
     value: function delete_cnotact() {
       var _this2 = this;
 
-      if (confirm('Delete ' + this.props.contact.name + ' contact?')) axios__WEBPACK_IMPORTED_MODULE_2___default.a.post('/api/contacts/delete', {
+      if (confirm('Delete ' + this.props.contact.name + ' contact?')) axios__WEBPACK_IMPORTED_MODULE_3___default.a.post('/api/contacts/delete', {
         id: this.props.contact.id
       }).then(function (res) {
-        axios__WEBPACK_IMPORTED_MODULE_2___default.a.get('/api/contacts').then(function (res) {
+        axios__WEBPACK_IMPORTED_MODULE_3___default.a.get('/api/contacts').then(function (res) {
           _this2.context.update_state(res.data);
         });
       });
@@ -61982,20 +61991,28 @@ function (_Component) {
     key: "render",
     value: function render() {
       var contact = this.props.contact;
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "card mt-3"
+      if (this.state.edit_form_flag) return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_EditForm__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        edit_form_flag: this.state.edit_form_flag,
+        toggle_edit_form: this.state.toggle_edit_form,
+        contact: this.props.contact
+      });else return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "card mt-3 pt-3"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "container-fluid"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "row"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "col-2"
+        className: "col-3"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-        src: "",
-        alt: "",
-        placeholder: "sas"
+        src: contact.img_url !== '' ? contact.img_url : "https://via.placeholder.com/150",
+        style: {
+          border: '2px solid black',
+          borderRadius: "200px",
+          width: "100px",
+          height: "100px"
+        }
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "col-6"
+        className: "col-5"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "card-body"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", {
@@ -62005,20 +62022,20 @@ function (_Component) {
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "d-flex justify-content-between"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        onClick: this.state.toggle_edit_form,
         className: "alert alert-primary"
       }, "Edit"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         onClick: this.delete_cnotact,
         className: "alert alert-danger"
       }, "X")))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "row"
+        className: "row pb-2"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-4"
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-6 d-flex justify-content-between"
       }, contact.info === '' ? 'Some additional info' : contact.info), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-4"
-      })))) // <p>{this.state.id}: {this.state.contact.name}, Age:{this.state.contact.age}</p>
-      ;
+      }))));
     }
   }]);
 
@@ -62113,24 +62130,22 @@ function (_Component) {
     value: function render() {
       var contatcs_load_flag = false;
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "row"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, "Contacts List:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "row mt-4"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-5"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, "Contacts List:")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-7"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "d-flex float-right"
       }, this.context.add_form_flag == false ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         onClick: this.context.toggle_add_form,
         className: "alert alert-success"
-      }, "Add new") : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null))), this.context.add_form_flag ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_AddForm__WEBPACK_IMPORTED_MODULE_2__["default"], null) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null), typeof this.context.contacts !== 'undefined' ? this.context.contacts.map(function (contact) {
+      }, "Add new") : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null)))), this.context.add_form_flag ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_AddForm__WEBPACK_IMPORTED_MODULE_2__["default"], null) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null), typeof this.context.contacts !== 'undefined' ? this.context.contacts.map(function (contact) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Contact__WEBPACK_IMPORTED_MODULE_1__["default"], {
           contact: contact,
           key: contact.id
         });
-      }) : 'Loading...'); // <div>
-      // 	{console.log(this.context)}
-      // 	{this.state.name}
-      // 	{/* {contacts.map( (contact, index) => (
-      // 		<Contact id={index} contact={contact} key={index}/>
-      // 	))} */}
-      // </div>
+      }) : 'Loading...');
     }
   }]);
 
@@ -62139,6 +62154,170 @@ function (_Component) {
 
 ContactsList.contextType = _MyContext__WEBPACK_IMPORTED_MODULE_3__["MyContext"];
 /* harmony default export */ __webpack_exports__["default"] = (ContactsList);
+
+/***/ }),
+
+/***/ "./resources/js/components/EditForm.js":
+/*!*********************************************!*\
+  !*** ./resources/js/components/EditForm.js ***!
+  \*********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _MyContext__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./MyContext */ "./resources/js/components/MyContext.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+
+
+
+
+var EditForm =
+/*#__PURE__*/
+function (_Component) {
+  _inherits(EditForm, _Component);
+
+  function EditForm() {
+    var _this;
+
+    _classCallCheck(this, EditForm);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(EditForm).call(this));
+    _this.state = {};
+    _this.update_contact = _this.update_contact.bind(_assertThisInitialized(_this));
+    return _this;
+  }
+
+  _createClass(EditForm, [{
+    key: "update_contact",
+    value: function update_contact() {
+      var _this2 = this;
+
+      var reg_expr = /^\+\d{3}\s\d{3}\s\d{3}\s\d{2}\s\d{2}$/;
+      var data = {
+        id: this.props.contact.id,
+        name: $('#name').val(),
+        phone: $('#phone').val(),
+        info: $('#info').val(),
+        img_url: $('#img_url').val()
+      };
+
+      if (!data.name || !data.phone) {
+        alert('You need to fill Name and Phone number');
+        return;
+      }
+
+      if (!data.phone.match(reg_expr)) {
+        alert('Invalid phone format. Try this: +xxx xxx xxx xx xx');
+        return;
+      }
+
+      axios__WEBPACK_IMPORTED_MODULE_2___default.a.post('/api/contacts/update', data).then(function (res) {
+        axios__WEBPACK_IMPORTED_MODULE_2___default.a.get('/api/contacts').then(function (res) {
+          _this2.context.update_state(res.data);
+
+          _this2.props.toggle_edit_form();
+
+          alert('Contact updated');
+        });
+      })["catch"](function (error) {
+        alert('Error occured');
+      });
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var contact = this.props.contact;
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "card px-4 pt-2 mt-3 mb-3"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "card-title"
+      }, "Edit form:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+        action: "api/contacts/add",
+        method: "POST"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-group"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "name"
+      }, "Name"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "text",
+        className: "form-control",
+        name: "name",
+        id: "name",
+        defaultValue: this.props.contact.name
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-group"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "phone"
+      }, "Phone"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "text",
+        className: "form-control",
+        name: "phone",
+        id: "phone",
+        defaultValue: this.props.contact.phone,
+        placeholder: "+xxx xxx xxx xx xx"
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-group"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "info"
+      }, "Info"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("textarea", {
+        className: "form-control",
+        name: "info",
+        id: "info",
+        rows: "3",
+        defaultValue: this.props.contact.info
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-group"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "info"
+      }, "Image URL"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "text",
+        className: "form-control",
+        name: "img_url",
+        id: "img_url",
+        defaultValue: this.props.contact.img_url
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-group"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        onClick: this.update_contact,
+        type: "button",
+        className: "btn btn-success"
+      }, "Update"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "d-flex float-right"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        onClick: this.props.toggle_edit_form,
+        type: "button",
+        className: "btn btn-secondary"
+      }, "Cancle")))));
+    }
+  }]);
+
+  return EditForm;
+}(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
+
+EditForm.contextType = _MyContext__WEBPACK_IMPORTED_MODULE_1__["MyContext"];
+/* harmony default export */ __webpack_exports__["default"] = (EditForm);
 
 /***/ }),
 
@@ -62176,30 +62355,7 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 
 
-var MyContext = Object(react__WEBPACK_IMPORTED_MODULE_0__["createContext"])(); // export const MyProvider = MyContext.Provider;
-// export const MyConsumer = MyContext.Consumer;
-// export default MyContext;
-// export const MyProvider = props => {
-// 	const [contacts, setContacts] = useState([
-// 		{
-// 			name: 'max'
-// 		},
-// 		{
-// 			name: 'john'
-// 		}
-// 	]);
-// 	// setContacts([{name: 'sas'}]);
-// 	let s = 12;
-// 	// axios.get('/api/contacts').then(res => {
-// 	// 	setContacts(res.data);
-// 	// });
-// 	console.log(contacts);
-// 	return (
-// 		<MyContext.Provider value={[contacts]}>
-// 			{props.children}
-// 		</MyContext.Provider>
-// 	);
-// };
+var MyContext = Object(react__WEBPACK_IMPORTED_MODULE_0__["createContext"])();
 
 var MyProvider =
 /*#__PURE__*/
@@ -62276,8 +62432,8 @@ function (_Component) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\alley\Desktop\contacts\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\Users\alley\Desktop\contacts\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\Users\alley\Desktop\Contacts\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\Users\alley\Desktop\Contacts\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

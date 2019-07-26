@@ -4,22 +4,6 @@ import axios from 'axios'
 import ContactsList from './ContactsList'
 import MyProvider from './MyContext'
 
-
-// const arr = [
-//     {
-//         name: 'Max',
-//         age: 12
-//     },
-//     {
-//         name: 'John',
-//         age: 41
-//     },
-//     {
-//         name: 'Ferik',
-//         age: 22
-//     }
-// ]
-
 export default class App extends Component {    
 
     render() {
