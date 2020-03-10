@@ -13,7 +13,7 @@ Contacts list with full CRUD functionality.
 
 # Usage
 Go to project directory.
-Yoy need to change name of the DB and user login/password in .env file.
+Yoг need to change name of the DB and user login/password in .env file.
 Then type this to create DB tables:
 ```
 php artisan migrate
